@@ -1,8 +1,8 @@
 #ifndef boost_asio_server_wrapper_h__
 #define boost_asio_server_wrapper_h__
 
-#include "lib_export.h"
-#include "lib_callback.h"
+#include "../common/lib_export.h"
+#include "../common/lib_callback.h"
 
 #ifdef __cplusplus
 extern "C" 

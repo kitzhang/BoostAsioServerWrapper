@@ -1,5 +1,5 @@
 #include "cb_wrapper_server.h"
-#include "comm_macro.h"
+#include "../common/comm_macro.h"
 
 cb_wrapper_server::cb_wrapper_server(	
 	const std::string& server_ip, unsigned short server_port,

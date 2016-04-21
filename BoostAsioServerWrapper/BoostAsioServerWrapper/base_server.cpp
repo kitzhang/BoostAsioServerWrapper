@@ -2,7 +2,7 @@
 #include <boost/bind.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <iostream>
-#include "comm_macro.h"
+#include "../common/comm_macro.h"
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,6 @@ int server_session::get_session_id()
 
 base_server::base_server(const std::string& server_ip, unsigned short server_port)
 : m_acceptor(m_iosev, tcp::endpoint(ip::address_v4::from_string(server_ip.c_str()), server_port), false)
-, m_unique_id(1)
 {
 	std::cout << "ip [" << server_ip.c_str() << "] " 
 			  << "tcp port[" << server_port 
@@ -147,8 +146,6 @@ void base_server::base_close(std::shared_ptr<server_session> p_session, error_co
 	p_session->get_socket().close(const_cast<boost::system::error_code&>(ec));
 
 	on_closed_cb(p_session, ec);
-
-	return;
 }
 
 int base_server::async_send(std::shared_ptr<server_session> p_session, const std::string& data)

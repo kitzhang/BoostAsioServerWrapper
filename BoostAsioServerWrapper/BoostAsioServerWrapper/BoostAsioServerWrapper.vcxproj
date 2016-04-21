@@ -302,14 +302,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\comm_macro.h" />
+    <ClInclude Include="..\common\lib_callback.h" />
+    <ClInclude Include="..\common\lib_export.h" />
+    <ClInclude Include="..\common\type_macro.h" />
     <ClInclude Include="base_server.h" />
     <ClInclude Include="BoostAsioServerWrapper.h" />
     <ClInclude Include="cb_wrapper_manager.h" />
     <ClInclude Include="cb_wrapper_server.h" />
-    <ClInclude Include="comm_macro.h" />
-    <ClInclude Include="lib_callback.h" />
-    <ClInclude Include="lib_export.h" />
-    <ClInclude Include="type_macro.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

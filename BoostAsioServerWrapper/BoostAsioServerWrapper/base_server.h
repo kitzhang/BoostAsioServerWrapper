@@ -9,7 +9,8 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <memory>
-#include "type_macro.h"
+#include <atomic>
+#include "../common/type_macro.h"
 
 using namespace boost::asio;
 using boost::system::error_code;
@@ -24,8 +25,7 @@ public:
 		, recv_header_len_(0)
 		, m_socket(iosev)
 	{
-		WRITE_LOCK rd_lock(rw_mutex_);
-		static int tmp_session_id = 0;
+		static std::atomic<int> tmp_session_id = 0;
 		session_id_ = ++tmp_session_id;
 	}
 
@@ -83,7 +83,6 @@ public:
 private:
 	io_service m_iosev;
 	ip::tcp::acceptor m_acceptor;
-	int m_unique_id;
 
 };
 

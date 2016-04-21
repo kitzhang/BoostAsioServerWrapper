@@ -1,7 +1,7 @@
 #ifndef cb_wrapper_server_h__
 #define cb_wrapper_server_h__
 
-#include "lib_callback.h"
+#include "../common/lib_callback.h"
 #include "base_server.h"
 #include <thread>
 
