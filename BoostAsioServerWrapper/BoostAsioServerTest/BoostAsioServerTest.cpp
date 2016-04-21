@@ -40,7 +40,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	printf("Established [%d] \n", asio_server_get_value());
 	std::string server_ip = "192.168.0.40";
-	unsigned short server_port = 9870;
+	unsigned short server_port = 1220;
 
 	int tmp_ret = asio_server_start_service(server_ip.c_str(), server_ip.length(), server_port,
 		test_on_connection_cb, test_on_msg_cb, test_on_closed_cb,  test_on_sended_cb);	

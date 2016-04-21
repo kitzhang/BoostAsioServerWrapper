@@ -13,7 +13,6 @@ project(BoostAsioServerWrapper) : base_project {
 	lib_callback.h
 	type_macro.h
 	comm_macro.h
-	session_interface.h
 	base_server.h
 	cb_wrapper_server.h
 	cb_wrapper_manager.h

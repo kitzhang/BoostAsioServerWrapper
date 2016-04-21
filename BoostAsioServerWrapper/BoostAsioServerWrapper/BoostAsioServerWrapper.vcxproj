@@ -309,7 +309,6 @@
     <ClInclude Include="comm_macro.h" />
     <ClInclude Include="lib_callback.h" />
     <ClInclude Include="lib_export.h" />
-    <ClInclude Include="session_interface.h" />
     <ClInclude Include="type_macro.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
