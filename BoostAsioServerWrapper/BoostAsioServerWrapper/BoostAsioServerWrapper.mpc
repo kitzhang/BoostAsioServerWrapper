@@ -1,0 +1,25 @@
+project(BoostAsioServerWrapper) : base_project {	
+	staticname = BoostAsioServerWrapper
+  
+	Source_Files {
+	base_server.cpp
+	cb_wrapper_server.cpp
+	cb_wrapper_manager.cpp
+	BoostAsioServerWrapper.cpp
+	}
+
+	Header_Files {
+	lib_export.h
+	lib_callback.h
+	type_macro.h
+	comm_macro.h
+	session_interface.h
+	base_server.h
+	cb_wrapper_server.h
+	cb_wrapper_manager.h
+	BoostAsioServerWrapper.h
+	}
+}
+
+
+

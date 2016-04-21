@@ -1,0 +1,23 @@
+project(BoostAsioServerTest) : base_project {	
+	exename = BoostAsioServerTest
+	includes += ../BoostAsioServerWrapper
+	after += BoostAsioServerWrapper
+	libs += BoostAsioServerWrapper
+	
+	specific(vc12) {
+	exeout = ../bin/
+	}
+  
+	Source_Files {
+	stdafx.cpp
+	BoostAsioServerTest.cpp
+	}
+
+	Header_Files {
+	targetver.h
+	stdafx.h
+	}
+}
+
+
+

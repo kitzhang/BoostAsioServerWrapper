@@ -1,0 +1,1 @@
+%MPC_ROOT%/mwc.pl -include base_mpb -type vc12 BoostAsioServerWrapper.mwc

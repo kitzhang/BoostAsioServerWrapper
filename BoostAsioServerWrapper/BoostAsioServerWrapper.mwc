@@ -1,0 +1,5 @@
+workspace(BoostAsioServer) {
+	./base_mpb
+	./BoostAsioServerWrapper/BoostAsioServerWrapper.mpc
+	./BoostAsioServerTest/BoostAsioServerTest.mpc
+}

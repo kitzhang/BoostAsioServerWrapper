@@ -1,0 +1,24 @@
+project {
+	// common
+	specific {
+		Release::lib_modifier =
+		Debug::lib_modifier =
+	}
+
+	specific(vc12) {
+		optimize = Disabled						// is /Od
+		generatedebuginformation = true
+		debug_format = EditAndContinue			// is /ZI
+		optimizereferences = 0 
+		enablecomdatfolding = 0
+		wholeprogramoptimization = 0
+		
+		includes += $(BOOST_ROOT)
+		libpaths += $(BOOST_ROOT)/bin.vc120/lib
+		libpaths += ../bin
+		libout = ../bin
+	}
+}
+
+
+
