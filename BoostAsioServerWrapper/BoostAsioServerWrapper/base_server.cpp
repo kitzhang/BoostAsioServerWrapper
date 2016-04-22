@@ -27,6 +27,7 @@ int server_session::get_session_id()
 
 base_server::base_server(const std::string& server_ip, unsigned short server_port)
 : m_acceptor(m_iosev, tcp::endpoint(ip::address_v4::from_string(server_ip.c_str()), server_port), false)
+, flag_svc_(false)
 {
 	std::cout << "ip [" << server_ip.c_str() << "] " 
 			  << "tcp port[" << server_port 
@@ -44,12 +45,26 @@ void base_server::start_next_async_accept()
 
 void base_server::run_io_svc()
 {
-	m_iosev.run();
+	flag_svc_ = true;
+	try{
+		m_iosev.run();
+		m_iosev.reset();
+	}
+	catch (std::exception & e){
+		printf("run service failed [%s] \n", e.what());
+	}
+	flag_svc_ = false;
 }
 
 void base_server::stop_io_svc()
 {
 	m_iosev.stop();
+	flag_svc_ = false;
+}
+
+bool base_server::flag_svc()
+{
+	return flag_svc_;
 }
 
 void base_server::base_on_connection_cb(std::shared_ptr<server_session> p_session, error_code ec)
@@ -58,8 +73,10 @@ void base_server::base_on_connection_cb(std::shared_ptr<server_session> p_sessio
 	std::cout << "new client " <</* index++ << " "  <<*/p_session->get_socket().remote_endpoint().address()
 		<< ":" << p_session->get_socket().remote_endpoint().port() << std::endl;
 
-	if ( 0 != on_connection_cb(p_session, ec) )
-	{	std::cout << "session close acitvely on connection" << std::endl;	return;	}
+	if ( 0 != on_connection_cb(p_session, ec) ){	
+		std::cout << "session close acitvely on connection" << std::endl;	
+		base_server::base_close(p_session, ec); return;	
+	}
 
 	if (ec) { std::cout << ec.message() << std::endl;	return; }
 
@@ -122,8 +139,10 @@ void base_server::base_on_msg_content_cb(std::shared_ptr<server_session> p_sessi
 
 	std::string& ref_buf = p_session->read_buf_str_;
 
-	if (0 != on_msg_cb(p_session, ec) )
-	{	std::cout << "session close acitvely on msg" << std::endl;	return;	}
+	if (0 != on_msg_cb(p_session, ec) ){	
+		std::cout << "session close acitvely on msg" << std::endl;	
+		base_server::base_close(p_session, ec);		return;
+	}
 
 	p_session->reset_unit();
 
@@ -198,14 +217,12 @@ void base_server::base_on_sended_cb(std::shared_ptr<server_session> p_session, e
 		base_server::base_close(p_session, ec);	return;
 	}
 
-	if (0 != on_sended_cb(p_session, ec) )
-	{	std::cout << "session close acitvely on sended" << std::endl;	return;	}
-
 	//////////////////////////////////////////////////////////////////////////
 	{
 		WRITE_LOCK rd_lock(p_session->rw_mutex_);
 		p_session->send_buf_str_.clear();
-		if (p_session->send_list_buf_.empty())	return;
+		if (p_session->send_list_buf_.empty())
+			goto TAG_ALL_SENDED_END;
 
 		std::string& ref_buf = p_session->send_list_buf_.front();
 		p_session->send_buf_str_.append(ref_buf.c_str(), ref_buf.length());
@@ -219,6 +236,14 @@ void base_server::base_on_sended_cb(std::shared_ptr<server_session> p_session, e
 		boost::asio::placeholders::error,
 		boost::asio::placeholders::bytes_transferred)
 		);
+
+	return;
+
+TAG_ALL_SENDED_END:
+	if (0 != on_sended_cb(p_session, ec)){
+		std::cout << "session close acitvely on sended" << std::endl;	
+		base_server::base_close(p_session, ec);		return;
+	}
 }
 
 

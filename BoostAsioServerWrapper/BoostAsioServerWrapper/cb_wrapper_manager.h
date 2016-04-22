@@ -14,19 +14,19 @@ public:
 public:
 	cb_wrapper_manager();
 	int start_svc(	const std::string& server_ip, unsigned short server_port,
-		UTI_ON_CONNECTION_CB	in_conn_cb = NULL,
-		UTI_ON_MSG_CB			in_msg_cb = NULL,
-		UTI_ON_CLOSED_CB		in_closed_cb = NULL,
-		UTI_ON_SENDED_CB		in_sended_cb = NULL,
+		UTI_ON_SVR_CONN_CB		in_conn_cb = NULL,
+		UTI_ON_SVR_MSG_CB		in_msg_cb = NULL,
+		UTI_ON_SVR_CLOSED_CB	in_closed_cb = NULL,
+		UTI_ON_SVR_SENDED_CB	in_sended_cb = NULL,
 		long					usr_data = 0);
 
 	void stop_svc(const std::string& server_ip, unsigned short server_port);
 
 	bool validate_svc(const std::string& server_ip, unsigned short server_port,
-		UTI_ON_CONNECTION_CB	in_conn_cb = NULL,
-		UTI_ON_MSG_CB			in_msg_cb = NULL,
-		UTI_ON_CLOSED_CB		in_closed_cb = NULL,
-		UTI_ON_SENDED_CB		in_sended_cb = NULL,
+		UTI_ON_SVR_CONN_CB		in_conn_cb = NULL,
+		UTI_ON_SVR_MSG_CB		in_msg_cb = NULL,
+		UTI_ON_SVR_CLOSED_CB	in_closed_cb = NULL,
+		UTI_ON_SVR_SENDED_CB	in_sended_cb = NULL,
 		long					usr_data = 0);
 
 protected:

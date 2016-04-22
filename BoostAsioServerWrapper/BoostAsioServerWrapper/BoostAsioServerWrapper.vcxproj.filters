@@ -28,10 +28,10 @@
     <ClInclude Include="..\common\comm_macro.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\lib_callback.h">
+    <ClInclude Include="..\common\lib_export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\lib_export.h">
+    <ClInclude Include="..\common\lib_server_callback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\common\type_macro.h">

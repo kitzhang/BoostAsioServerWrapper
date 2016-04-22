@@ -10,7 +10,7 @@ project(BoostAsioServerWrapper) : base_project {
 
 	Header_Files {
 	../common/lib_export.h
-	../common/lib_callback.h
+	../common/lib_server_callback.h
 	../common/type_macro.h
 	../common/comm_macro.h
 	base_server.h

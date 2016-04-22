@@ -3,10 +3,10 @@
 
 cb_wrapper_server::cb_wrapper_server(	
 	const std::string& server_ip, unsigned short server_port,
-	UTI_ON_CONNECTION_CB	in_conn_cb,
-	UTI_ON_MSG_CB			in_msg_cb,
-	UTI_ON_CLOSED_CB		in_closed_cb,
-	UTI_ON_SENDED_CB		in_sended_cb,
+	UTI_ON_SVR_CONN_CB		in_conn_cb,
+	UTI_ON_SVR_MSG_CB		in_msg_cb,
+	UTI_ON_SVR_CLOSED_CB	in_closed_cb,
+	UTI_ON_SVR_SENDED_CB	in_sended_cb,
 	long					usr_data)
 : base_server(server_ip, server_port)
 , server_ip_(server_ip)
@@ -16,7 +16,6 @@ cb_wrapper_server::cb_wrapper_server(
 , on_closed_cb_(in_closed_cb)
 , on_sended_cb_(in_sended_cb)
 , usr_data_(usr_data)
-, flag_svc_(false)
 {
 	
 }
@@ -37,25 +36,16 @@ void cb_wrapper_server::stop_svc()
 		this->sp_thrd_svc_->join();
 		this->sp_thrd_svc_.reset();
 	}
-
-	flag_svc_ = false;
-}
-
-bool cb_wrapper_server::flag_svc()
-{
-	return flag_svc_;
 }
 
 void cb_wrapper_server::svc_thread_entry(int test)
 {
-	flag_svc_ = true;
 	start_next_async_accept();
 	run_io_svc();
-	flag_svc_ = false;
 }
 
 int cb_wrapper_server::on_connection_cb(std::shared_ptr<server_session> p_session, error_code ec){
-	//printf("on_connection_cb");
+	//printf("on_connection_cb \n");
 	if (NULL == on_connection_cb_)	return 0;
 
 	std::string client_ip = p_session->get_socket().remote_endpoint().address().to_string();
@@ -71,7 +61,7 @@ int cb_wrapper_server::on_connection_cb(std::shared_ptr<server_session> p_sessio
 }
 
 int cb_wrapper_server::on_msg_cb(std::shared_ptr<server_session> p_session, error_code ec){
-	//printf("on_msg_cb data[%s] len[%d]", p_session->read_buf_str_.c_str(), p_session->read_buf_str_.length());
+	//printf("on_msg_cb data[%s] len[%d] \n", p_session->read_buf_str_.c_str(), p_session->read_buf_str_.length());
 	if (NULL == on_msg_cb_)	return 0;
 
 	int	 send_len = 0;
@@ -85,22 +75,17 @@ int cb_wrapper_server::on_msg_cb(std::shared_ptr<server_session> p_session, erro
 }
 
 void cb_wrapper_server::on_closed_cb(std::shared_ptr<server_session> p_session, error_code ec){
-	//printf("on_close_cb");
+	//printf("on_close_cb \n");
 	if (NULL == on_closed_cb_)	return;
 
 	on_closed_cb_(p_session->get_session_id(), usr_data_);
 }
 
 int cb_wrapper_server::on_sended_cb(std::shared_ptr<server_session> p_session, error_code ec){
-	//printf("on_send_cb");
+	//printf("on_send_cb \n");
 	if (NULL == on_sended_cb_)	return 0;
 
-	int	 send_len = 0;
-	char* p_send_data = NULL;
-	int tmp_ret = on_sended_cb_(p_session->get_session_id(), &p_send_data, &send_len, usr_data_);
-	if (0 != tmp_ret)	return tmp_ret;
-
-	return filter_send(p_session, &p_send_data, send_len);
+	return on_sended_cb_(p_session->get_session_id(), usr_data_);
 }
 
 int cb_wrapper_server::filter_send(std::shared_ptr<server_session> p_session, char** pp_in_data, int in_len)

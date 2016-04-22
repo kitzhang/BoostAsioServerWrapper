@@ -59,6 +59,8 @@ public:
 	void start_next_async_accept();
 	void run_io_svc();	// will block
 	void stop_io_svc();
+	bool flag_svc();
+
 
 	//connection callback
 	void base_on_connection_cb(std::shared_ptr<server_session> pSession, error_code ec);
@@ -81,9 +83,9 @@ public:
 	virtual int on_sended_cb(std::shared_ptr<server_session> pSession, error_code ec) = 0;
 	
 private:
-	io_service m_iosev;
-	ip::tcp::acceptor m_acceptor;
-
+	io_service			m_iosev;
+	ip::tcp::acceptor	m_acceptor;
+	volatile bool		flag_svc_;
 };
 
 #endif

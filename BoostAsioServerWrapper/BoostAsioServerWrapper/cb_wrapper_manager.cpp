@@ -15,10 +15,10 @@ cb_wrapper_manager::cb_wrapper_manager()
 
 int cb_wrapper_manager::start_svc(	
 	const std::string& server_ip, unsigned short server_port,
-	UTI_ON_CONNECTION_CB	in_conn_cb,
-	UTI_ON_MSG_CB			in_msg_cb,
-	UTI_ON_CLOSED_CB		in_closed_cb,
-	UTI_ON_SENDED_CB		in_sended_cb,
+	UTI_ON_SVR_CONN_CB		in_conn_cb,
+	UTI_ON_SVR_MSG_CB		in_msg_cb,
+	UTI_ON_SVR_CLOSED_CB	in_closed_cb,
+	UTI_ON_SVR_SENDED_CB	in_sended_cb,
 	long					usr_data)
 
 {
@@ -39,7 +39,7 @@ int cb_wrapper_manager::start_svc(
 		sp_cb_wrapper_server->start_svc();
 	}
 	catch (std::exception& e){
-		printf("ip[%s] port[%d] failed to start listen! [%s]", server_ip.c_str(), server_port, e.what());
+		printf("ip[%s] port[%d] failed to start listen! [%s] \n", server_ip.c_str(), server_port, e.what());
 		return -1;
 	}
 
@@ -69,10 +69,10 @@ void cb_wrapper_manager::stop_svc(const std::string& server_ip, unsigned short s
 
 bool cb_wrapper_manager::validate_svc(
 	const std::string& server_ip, unsigned short server_port,
-	UTI_ON_CONNECTION_CB	in_conn_cb,
-	UTI_ON_MSG_CB			in_msg_cb,
-	UTI_ON_CLOSED_CB		in_closed_cb,
-	UTI_ON_SENDED_CB		in_sended_cb,
+	UTI_ON_SVR_CONN_CB		in_conn_cb,
+	UTI_ON_SVR_MSG_CB		in_msg_cb,
+	UTI_ON_SVR_CLOSED_CB	in_closed_cb,
+	UTI_ON_SVR_SENDED_CB	in_sended_cb,
 	long					usr_data)
 {
 	std::unique_lock<std::mutex> g(std_mutex_);

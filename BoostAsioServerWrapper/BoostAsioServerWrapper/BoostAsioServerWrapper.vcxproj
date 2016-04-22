@@ -303,8 +303,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\comm_macro.h" />
-    <ClInclude Include="..\common\lib_callback.h" />
     <ClInclude Include="..\common\lib_export.h" />
+    <ClInclude Include="..\common\lib_server_callback.h" />
     <ClInclude Include="..\common\type_macro.h" />
     <ClInclude Include="base_server.h" />
     <ClInclude Include="BoostAsioServerWrapper.h" />
